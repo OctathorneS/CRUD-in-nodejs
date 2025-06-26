@@ -7,6 +7,7 @@ const { createUser, updateUser, deleteUser , postUserWithTasks, getUsers} = requ
  * /api/users:
  *   post:
  *     summary: Create a new user
+ *     tags: [users]
  *     requestBody:
  *       required: true
  *       content:
@@ -41,6 +42,7 @@ router.post('/', createUser);
  *   post:
  *     summary: Create a new user with associated tasks
  *     description: Creates a user (with unique email) and optionally assigns multiple tasks (with unique names per user)
+ *     tags: [users]
  *     requestBody:
  *       required: true
  *       content:
@@ -99,6 +101,7 @@ router.post('/createUserAndTask', postUserWithTasks);
  *   put:
  *     summary: Update an existing user by ID
  *     description: Updates the details of a user using their unique ID
+ *     tags: [users]
  *     parameters:
  *       - in: path
  *         name: id
@@ -138,6 +141,7 @@ router.put('/:id', updateUser);
  *   delete:
  *     summary: Delete a user by ID
  *     description: Deletes an existing user using their unique ID
+ *     tags: [users]
  *     parameters:
  *       - in: path
  *         name: id
@@ -161,6 +165,7 @@ router.delete('/:id', deleteUser);
  *   get:
  *     summary: Get a user by ID (optionally embed related data)
  *     description: Retrieves a user by their unique ID. Optionally embed related resources (like tasks) using the `_embed` query parameter.
+ *     tags: [users]
  *     parameters:
  *       - in: path
  *         name: id

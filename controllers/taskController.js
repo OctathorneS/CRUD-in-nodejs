@@ -2,16 +2,28 @@ const Task = require('../models/task');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/CatchAsync');
 
-// Create Task
+//create task
 exports.createTask = catchAsync(async (req, res, next) => {
-  const { name, description, status, userId } = req.body;
+  const { name, description, status, userId, categoryIds } = req.body;
 
   const task = await Task.create({ name, description, status, userId });
-  res.status(201).json(task);
-  if(!task){
-   return next(new AppError('Something went wrong',500))
+
+  if (!task) {
+    return next(new AppError('Something went wrong', 500));
   }
+
+  // if categoryIds provided, associate them via junction table
+  if (categoryIds && Array.isArray(categoryIds) && categoryIds.length > 0) {
+    await task.addCategories(categoryIds);
+  }
+
+  res.status(201).json({
+    success: true,
+    message: 'Task created successfully',
+    taskId: task.id
+  });
 });
+
 
 // Get All Tasks
 exports.getAllTasks = catchAsync(async (req, res, next) => {
